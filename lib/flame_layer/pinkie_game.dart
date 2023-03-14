@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:pinkie_flame/actors/pinkie.dart';
 import 'package:pinkie_flame/actors/treasure.dart';
 import 'package:pinkie_flame/blocs/score/bloc/score_bloc.dart';
+import 'dart:ui';
 
 class PinkieGame extends FlameGame with HasCollisionDetection, HasDraggables {
   final ScoreBloc scoreBloc;
@@ -16,10 +17,11 @@ class PinkieGame extends FlameGame with HasCollisionDetection, HasDraggables {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    camera.viewport = FixedResolutionViewport(Vector2(1500, 784));
+    var physicalSize = window.physicalSize;
+    camera.viewport = FixedResolutionViewport(Vector2(physicalSize.width, physicalSize.height));
     add(SpriteComponent(sprite: await loadSprite('background.png'))
       ..size = size);
-    add(FlameBlocProvider.value(value: scoreBloc, children: [
+    add(FlameBlocProvider<ScoreBloc, ScoreState>.value(value: scoreBloc, children: [
       Treasure(treasurePostion: Vector2(300, 100)),
       Treasure(treasurePostion: Vector2(600, 100)),
       Pinkie()
@@ -28,8 +30,8 @@ class PinkieGame extends FlameGame with HasCollisionDetection, HasDraggables {
     final knobPaint = BasicPalette.blue.withAlpha(200).paint();
     final backgroundPaint = BasicPalette.blue.withAlpha(100).paint();
     joystick = JoystickComponent(
-      knob: CircleComponent(radius: 30, paint: knobPaint),
-      background: CircleComponent(radius: 100, paint: backgroundPaint),
+      knob: CircleComponent(radius: 50, paint: knobPaint),
+      background: CircleComponent(radius: 150, paint: backgroundPaint),
       margin: const EdgeInsets.only(left: 40, bottom: 40),
     );
     add(joystick);

@@ -7,6 +7,10 @@ abstract class ScoreEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class IncreaseScoreEvent extends ScoreEvent{
-  
+class IncreaseScoreEvent extends ScoreEvent{}
+
+class ChangeGemTypeEvent extends ScoreEvent {
+  final GemType gemType;
+
+  const ChangeGemTypeEvent({ required this.gemType});
 }
